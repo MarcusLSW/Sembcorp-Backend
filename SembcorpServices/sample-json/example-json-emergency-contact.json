@@ -1,0 +1,30 @@
+[
+    {
+      "location_name": "SINGAPORE",
+      "region_code": "65",
+      "contact_number": "98159025",
+      "lat": "23.45",
+      "longi": "11.11"  
+    },
+    {
+      "location_name": "SINGAPORE",
+      "region_code": "65",
+      "contact_number": "91376205",
+      "lat": "44.44",
+      "longi": "33.33"  
+    },
+	{
+      "location_name": "USA",
+      "region_code": "1",
+      "contact_number": "8230924213",
+      "lat": "123.45",
+      "longi": "111.11"  
+    },
+	{
+      "location_name": "UK",
+      "region_code": "44",
+      "contact_number": "6714057324",
+      "lat": "123.45",
+      "longi": "111.11"  
+    }
+]
