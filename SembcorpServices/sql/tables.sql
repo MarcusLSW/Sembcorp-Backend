@@ -12,8 +12,8 @@ CREATE TABLE `test`.`sos_message` (
     `id` VARCHAR(100) NOT NULL , 
     `email` VARCHAR(100) NOT NULL , 
     `lat` DOUBLE NOT NULL , 
-    `long` DOUBLE  NOT NULL ,
-    `initialisationDate` DATETIME NOT NULL,
+    `longi` DOUBLE  NOT NULL ,
+    `initialisation_date` DATETIME NOT NULL,
     `message` TEXT NOT NULL,
     `is_resloved` BOOLEAN NOT NULL,
     `last_update` DATETIME NOT NULL,  
@@ -80,7 +80,7 @@ CREATE TABLE `test`.`isos_region_alert` (
 ) ENGINE = MyISAM;
 
 CREATE TABLE `test`.`isos_update` (
-    `herf` VARCHAR(100) NOT NULL ,
+    `href` VARCHAR(100) NOT NULL ,
     `title` VARCHAR(100) NOT NULL ,
     `summary` TEXT NOT NULL ,
     `created` VARCHAR(100) NOT NULL ,
@@ -117,7 +117,8 @@ CREATE TABLE `test`.`admin_alert` (
     `alert` TEXT NOT NULL ,
     `parent_id` VARCHAR(100) ,
     `child_id` VARCHAR(100) ,
-    primary key(id)
+    primary key(id) ,
+    FOREIGN KEY(email) REFERENCES user(email)
 ) ENGINE = MyISAM;
 
 ALTER TABLE `admin_alert` CHANGE `parent_id` `parent_id` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000', CHANGE `child_id` `child_id` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000';
