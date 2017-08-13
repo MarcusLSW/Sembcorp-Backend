@@ -17,7 +17,11 @@ namespace SembcorpServices
             // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);            
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            // Obsolete
+            // Register the default hubs route: ~/signalr/hubs
+            // RouteTable.Routes.MapHubs();
         }
     }
 }
