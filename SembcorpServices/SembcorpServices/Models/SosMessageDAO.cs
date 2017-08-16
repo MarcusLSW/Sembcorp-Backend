@@ -9,8 +9,9 @@ namespace SembcorpServices.Models
     {
         private static string GET_ALL_SOS_MESSAGES = "select * from sos_message";
         private static string GET_SOS_MESSAGE_BY_GUID = "select * from sos_message where guid = @guid";
-        private static string ADD_SOS_MESSAGE = "insert into sos_message vales(?, ?, ?, ?, ?)";
-        private static string UPDATE_SOS_MESSAGE = "update sos_message set lat = ?, longi = ?, message = ? where uuid = ?";
+        private static string ADD_SOS_MESSAGE = "insert into sos_message vales(@guid, @email, @lat, @longi, @time_initated, @is_resloved, @last_update)";
+        private static string UPDATE_SOS_MESSAGE = "update sos_message set lat = @lat, longi = @longi, message = @message, last_updated = @last_updated, where uuid = @uuid";
+        private static string IS_RESOLVED = "update sos_message set lat = @lat, longi = @longi, is_resloved = @is_resloved, last_update = @last_update where uuid = @uuid";
 
         public List<SosMessage> GetAllSosMessage()
         {
@@ -44,7 +45,7 @@ namespace SembcorpServices.Models
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                Console.WriteLine(ex.ToString());
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
             finally
             {
@@ -84,7 +85,7 @@ namespace SembcorpServices.Models
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                Console.WriteLine(ex.ToString());
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
             finally
             {
@@ -105,12 +106,74 @@ namespace SembcorpServices.Models
             {
                 conn = ConnectionManager.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(ADD_SOS_MESSAGE, conn);
+                cmd.Parameters.AddWithValue("@guid", sosMessage.SosId);
+                cmd.Parameters.AddWithValue("@email", sosMessage.Email);
+                cmd.Parameters.AddWithValue("@lat", sosMessage.Lat);
+                cmd.Parameters.AddWithValue("@longi", sosMessage.Longi);
+                cmd.Parameters.AddWithValue("@time_initalised", sosMessage.TimeInitiated);
+                cmd.Parameters.AddWithValue("@is_resolved", sosMessage.IsResolved);
 
-                
+                int numOfRows = cmd.ExecuteNonQuery();
+
+                if (numOfRows == 1) return true;
             }
             catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                Console.WriteLine(ex.ToString());
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+
+            return false;
+        }
+
+        public bool UpdateSosMessage(SosMessage sosMessage)
+        {
+            if (sosMessage == null) return false;
+
+            MySqlConnection conn = null;
+            try
+            {
+                conn = ConnectionManager.GetConnection();
+                MySqlCommand cmd = new MySqlCommand(UPDATE_SOS_MESSAGE, conn);
+                cmd.Parameters.AddWithValue("@guid", sosMessage.SosId);
+                cmd.Parameters.AddWithValue("@last_update", sosMessage.LastUpdate);
+                cmd.Parameters.AddWithValue("@lat", sosMessage.Lat);
+                cmd.Parameters.AddWithValue("@longi", sosMessage.Longi);
+                cmd.Parameters.AddWithValue("@message", sosMessage.Message);
+
+                int numOfRows = cmd.ExecuteNonQuery();
+
+                if (numOfRows == 1) return true;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+
+            return false;
+        }
+
+        public bool ResolveMessage(SosMessage sosMessage)
+        {
+            if (sosMessage == null) return false;
+
+            MySqlConnection conn = null;
+            try
+            {
+                conn = ConnectionManager.GetConnection();
+                MySqlCommand cmd = new MySqlCommand(UPDATE_SOS_MESSAGE, conn);
+                cmd.Parameters.AddWithValue("@guid", sosMessage.SosId);
+                cmd.Parameters.AddWithValue("@last_update", sosMessage.LastUpdate);
+                cmd.Parameters.AddWithValue("@lat", sosMessage.Lat);
+                cmd.Parameters.AddWithValue("@longi", sosMessage.Longi);
+                cmd.Parameters.AddWithValue("@is_resolved", sosMessage.IsResolved);
+
+                int numOfRows = cmd.ExecuteNonQuery();
+
+                if (numOfRows == 1) return true;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
 
             return false;

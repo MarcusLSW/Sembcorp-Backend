@@ -42,6 +42,7 @@ namespace SembcorpServices.Models
             IsMale = isMale;
         }
 
+        [JsonConstructor]
         public User(string email, string name, int contactNumber, int regionCode, bool isAdmin, bool isMale, double lat, double longi)
         {
             Email = email;

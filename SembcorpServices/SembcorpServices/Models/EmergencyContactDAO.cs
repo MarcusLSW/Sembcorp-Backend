@@ -9,8 +9,8 @@ namespace SembcorpServices.Models
     {
         private static string GET_ALL_EMERGENCY_CONTACTS = "SELECT * FROM emergency_contact";
         private static string GET_GET_EMERGENCY_CONTACT_BY_LOCATION = "SELECT * FROM emergency_contact WHERE region_code = @region_code AND contact_number = @contact_number";
+        private static string SET_EMERGENCY_CONTACT = "INSERT INTO emergency_contact VALUES(@name, @region_code, @num, @lat, @longi, @desc)";
         
-
         public List<EmergencyContact> GetAllEmergencyContacts()
         {
             MySqlConnection conn = null;
@@ -40,7 +40,7 @@ namespace SembcorpServices.Models
 
             } catch (MySqlException ex)
             {
-                Console.Write(ex.StackTrace.ToString());
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace.ToString());
             }
             finally
             {
@@ -107,6 +107,62 @@ namespace SembcorpServices.Models
             }
 
             return null;
+        }
+        
+        public bool AddEmergencyContact(string locationName, int regionCode, int contactNumber, double lat, double longi, string desc)
+        {
+            MySqlConnection conn = null;
+            try
+            {
+                conn = ConnectionManager.GetConnection();
+
+                MySqlCommand cmd = new MySqlCommand(SET_EMERGENCY_CONTACT, conn);
+
+                cmd.Parameters.AddWithValue("@name", locationName);
+                cmd.Parameters.AddWithValue("@region_code", regionCode);
+                cmd.Parameters.AddWithValue("@num", contactNumber);
+                cmd.Parameters.AddWithValue("@lat", lat);
+                cmd.Parameters.AddWithValue("@longi", longi);
+                cmd.Parameters.AddWithValue("@desc", desc);
+
+                int numOfRows = cmd.ExecuteNonQuery();
+
+                if (numOfRows == 1) return true;
+
+            }
+            catch (MySqlException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace.ToString());
+            }
+            finally
+            {
+                if (conn != null && conn.State != System.Data.ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
+            return false;
+        }
+
+        public bool UpdateEmergencyContact(EmergencyContact ec)
+        {
+            MySqlConnection conn = null;
+            try
+            {
+
+            }
+            catch (MySqlException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace.ToString());
+            }
+            finally
+            {
+                if (conn != null && conn.State != System.Data.ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
+            return false;
         }
     }
 }

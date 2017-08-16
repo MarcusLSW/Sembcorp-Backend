@@ -376,3 +376,6 @@ C:\Users\Jaren\Desktop\Sembcorp-Backend\SembcorpServices\SembcorpServices\bin\ko
 C:\Users\Jaren\Desktop\Sembcorp-Backend\SembcorpServices\SembcorpServices\bin\ru\System.Spatial.resources.dll
 C:\Users\Jaren\Desktop\Sembcorp-Backend\SembcorpServices\SembcorpServices\bin\zh-Hans\System.Spatial.resources.dll
 C:\Users\Jaren\Desktop\Sembcorp-Backend\SembcorpServices\SembcorpServices\bin\zh-Hant\System.Spatial.resources.dll
+D:\SembcorpBackend\Sembcorp-Backend\SembcorpServices\SembcorpServices\obj\Debug\SembcorpServices.csprojResolveAssemblyReference.cache
+D:\SembcorpBackend\Sembcorp-Backend\SembcorpServices\SembcorpServices\obj\Debug\SembcorpServices.dll
+D:\SembcorpBackend\Sembcorp-Backend\SembcorpServices\SembcorpServices\obj\Debug\SembcorpServices.pdb
