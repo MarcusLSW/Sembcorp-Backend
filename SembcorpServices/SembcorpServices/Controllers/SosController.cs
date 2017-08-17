@@ -68,12 +68,24 @@ namespace SembcorpServices.Controllers
 
         public HttpRequestMessage Resolve(string id, [FromBody]string value)
         {
-
+            return new HttpRequestMessage();
         }
 
         public class ResolveUpdate
         {
+            public double Lat { get; set; }
+            public double Longi { get; set; }
+            public DateTime LastUpdate { get; set; }
+            public bool IsResolved { get; set; }
 
+            [JsonConstructor]
+            public ResolveUpdate(double lat, double longi, DateTime lastUpdate, bool isResolved)
+            {
+                Lat = lat;
+                Longi = longi;
+                LastUpdate = lastUpdate;
+                IsResolved = isResolved;
+            }
         }
 
         public class SosUpdate

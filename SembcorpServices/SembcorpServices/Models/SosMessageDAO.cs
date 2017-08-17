@@ -164,7 +164,7 @@ namespace SembcorpServices.Models
                 cmd.Parameters.AddWithValue("@last_update", sosMessage.LastUpdate);
                 cmd.Parameters.AddWithValue("@lat", sosMessage.Lat);
                 cmd.Parameters.AddWithValue("@longi", sosMessage.Longi);
-                cmd.Parameters.AddWithValue("@is_resolved", sosMessage.IsResolved);
+                cmd.Parameters.AddWithValue("@is_resolved", true);
 
                 int numOfRows = cmd.ExecuteNonQuery();
 
