@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace SembcorpServices.Models
 {
@@ -26,7 +27,7 @@ namespace SembcorpServices.Models
         [DataMember]
         public DateTime LastUpdate { get; set; }
         
-
+        
         public SosMessage (Guid sosId, string email, double lat, double longi, DateTime timeInitiated, string message, DateTime lastUpdate, bool isResolved)
         {
             SosId = sosId;
@@ -39,6 +40,7 @@ namespace SembcorpServices.Models
             IsResolved = isResolved;
         }
 
+        [JsonConstructor]
         public SosMessage (string email, double lat, double longi, DateTime timeInitiated)
         {
             SosId = Guid.NewGuid();
@@ -47,7 +49,7 @@ namespace SembcorpServices.Models
             Longi = longi;
             TimeInitiated = timeInitiated;
         }
-
+        
         public override bool Equals(object obj)
         {
             if (obj == null) return false;

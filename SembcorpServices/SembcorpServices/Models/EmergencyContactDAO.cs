@@ -109,7 +109,7 @@ namespace SembcorpServices.Models
             return null;
         }
         
-        public bool AddEmergencyContact(string locationName, int regionCode, int contactNumber, double lat, double longi, string desc)
+        public bool AddEmergencyContact(EmergencyContact emergencyContact)
         {
             MySqlConnection conn = null;
             try
@@ -118,12 +118,12 @@ namespace SembcorpServices.Models
 
                 MySqlCommand cmd = new MySqlCommand(SET_EMERGENCY_CONTACT, conn);
 
-                cmd.Parameters.AddWithValue("@name", locationName);
-                cmd.Parameters.AddWithValue("@region_code", regionCode);
-                cmd.Parameters.AddWithValue("@num", contactNumber);
-                cmd.Parameters.AddWithValue("@lat", lat);
-                cmd.Parameters.AddWithValue("@longi", longi);
-                cmd.Parameters.AddWithValue("@desc", desc);
+                cmd.Parameters.AddWithValue("@name", emergencyContact.LocationName);
+                cmd.Parameters.AddWithValue("@region_code", emergencyContact.RegionCode);
+                cmd.Parameters.AddWithValue("@num", emergencyContact.ContactNumber);
+                cmd.Parameters.AddWithValue("@lat", emergencyContact.Lat);
+                cmd.Parameters.AddWithValue("@longi", emergencyContact.Longi);
+                cmd.Parameters.AddWithValue("@desc", emergencyContact.Desc);
 
                 int numOfRows = cmd.ExecuteNonQuery();
 

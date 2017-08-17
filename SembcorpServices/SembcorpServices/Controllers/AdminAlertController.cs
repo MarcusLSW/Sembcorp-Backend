@@ -42,14 +42,7 @@ namespace SembcorpServices.Controllers
             }
 
         }
-
-        // PUT: api/AdminAlert/5
-        //public void PutParent(int id, [FromBody]string value)
-        //{
-
-        //}
-
-
+        
         public HttpResponseMessage PutChild(string id, [FromBody]string value)
         {
             HttpResponseMessage response = null;

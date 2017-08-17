@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace SembcorpServices.Models
 {
@@ -20,6 +21,7 @@ namespace SembcorpServices.Models
         [DataMember]
         public string Desc { get; set; }
 
+        [JsonConstructor]
         public EmergencyContact(string locationName, int regionCode, int contactNumber, double lat, double longi, string desc)
         {
             LocationName = locationName;

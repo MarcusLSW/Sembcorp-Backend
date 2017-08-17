@@ -125,20 +125,19 @@ namespace SembcorpServices.Models
             return false;
         }
 
-        public bool UpdateSosMessage(SosMessage sosMessage)
+        public bool UpdateSosMessage(Guid sosId, double lat, double longi, DateTime lastUpdate, string message)
         {
-            if (sosMessage == null) return false;
 
             MySqlConnection conn = null;
             try
             {
                 conn = ConnectionManager.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(UPDATE_SOS_MESSAGE, conn);
-                cmd.Parameters.AddWithValue("@guid", sosMessage.SosId);
-                cmd.Parameters.AddWithValue("@last_update", sosMessage.LastUpdate);
-                cmd.Parameters.AddWithValue("@lat", sosMessage.Lat);
-                cmd.Parameters.AddWithValue("@longi", sosMessage.Longi);
-                cmd.Parameters.AddWithValue("@message", sosMessage.Message);
+                cmd.Parameters.AddWithValue("@guid", sosId);
+                cmd.Parameters.AddWithValue("@last_update", lastUpdate);
+                cmd.Parameters.AddWithValue("@lat", lat);
+                cmd.Parameters.AddWithValue("@longi", longi);
+                cmd.Parameters.AddWithValue("@message", message);
 
                 int numOfRows = cmd.ExecuteNonQuery();
 
@@ -152,7 +151,7 @@ namespace SembcorpServices.Models
             return false;
         }
 
-        public bool ResolveMessage(SosMessage sosMessage)
+        public bool ResolveMessage(Guid sosId, SosMessage sosMessage)   
         {
             if (sosMessage == null) return false;
 
