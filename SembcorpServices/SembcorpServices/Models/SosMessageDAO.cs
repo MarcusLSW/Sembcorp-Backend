@@ -2,6 +2,7 @@
 using SembcorpServices.Controllers;
 using System;
 using System.Collections.Generic;
+using static SembcorpServices.Controllers.SosController;
 
 namespace SembcorpServices.Models
 {
@@ -125,7 +126,7 @@ namespace SembcorpServices.Models
             return false;
         }
 
-        public bool UpdateSosMessage(Guid sosId, double lat, double longi, DateTime lastUpdate, string message)
+        public bool UpdateSosMessage(Guid sosId, SosUpdate updateSosMessage)
         {
 
             MySqlConnection conn = null;
@@ -134,10 +135,10 @@ namespace SembcorpServices.Models
                 conn = ConnectionManager.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(UPDATE_SOS_MESSAGE, conn);
                 cmd.Parameters.AddWithValue("@guid", sosId);
-                cmd.Parameters.AddWithValue("@last_update", lastUpdate);
-                cmd.Parameters.AddWithValue("@lat", lat);
-                cmd.Parameters.AddWithValue("@longi", longi);
-                cmd.Parameters.AddWithValue("@message", message);
+                cmd.Parameters.AddWithValue("@last_update", updateSosMessage.LastUpdate);
+                cmd.Parameters.AddWithValue("@lat", updateSosMessage.Lat);
+                cmd.Parameters.AddWithValue("@longi", updateSosMessage.Longi);
+                cmd.Parameters.AddWithValue("@message", updateSosMessage.Message);
 
                 int numOfRows = cmd.ExecuteNonQuery();
 
@@ -151,19 +152,19 @@ namespace SembcorpServices.Models
             return false;
         }
 
-        public bool ResolveMessage(Guid sosId, SosMessage sosMessage)   
+        public bool ResolveMessage(Guid sosId, ResolveUpdate resolveMessage)   
         {
-            if (sosMessage == null) return false;
+            if (resolveMessage == null) return false;
 
             MySqlConnection conn = null;
             try
             {
                 conn = ConnectionManager.GetConnection();
                 MySqlCommand cmd = new MySqlCommand(UPDATE_SOS_MESSAGE, conn);
-                cmd.Parameters.AddWithValue("@guid", sosMessage.SosId);
-                cmd.Parameters.AddWithValue("@last_update", sosMessage.LastUpdate);
-                cmd.Parameters.AddWithValue("@lat", sosMessage.Lat);
-                cmd.Parameters.AddWithValue("@longi", sosMessage.Longi);
+                cmd.Parameters.AddWithValue("@guid", sosId);
+                cmd.Parameters.AddWithValue("@last_update", resolveMessage.LastUpdate);
+                cmd.Parameters.AddWithValue("@lat", resolveMessage.Lat);
+                cmd.Parameters.AddWithValue("@longi", resolveMessage.Longi);
                 cmd.Parameters.AddWithValue("@is_resolved", true);
 
                 int numOfRows = cmd.ExecuteNonQuery();

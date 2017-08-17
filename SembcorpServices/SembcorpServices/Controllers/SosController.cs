@@ -54,7 +54,7 @@ namespace SembcorpServices.Controllers
                 if (result)
                 {
                     response = Request.CreateResponse(HttpStatusCode.OK, sosUpdate.LastUpdate);
-                    response.Headers.Location = new Uri(Request.RequestUri, string.Format("AdminAlert/{0}", id));
+                    response.Headers.Location = new Uri(Request.RequestUri, string.Format("sos/{0}", id));
                     return response;
                 }
             }
@@ -66,9 +66,27 @@ namespace SembcorpServices.Controllers
             return response;
         }
 
-        public HttpRequestMessage Resolve(string id, [FromBody]string value)
+        public HttpResponseMessage Resolve(string id, [FromBody]string value)
         {
-            return new HttpRequestMessage();
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Conflict, id);
+            try
+            {
+                ResolveUpdate resolveUpdate = JsonConvert.DeserializeObject<ResolveUpdate>(value);
+                bool result = new SosMessageDAO().ResolveMessage(Guid.Parse(id), resolveUpdate);
+
+                if (result)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, resolveUpdate.LastUpdate);
+                    response.Headers.Location = new Uri(Request.RequestUri, string.Format("sos/{0}", id));
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return response;
         }
 
         public class ResolveUpdate

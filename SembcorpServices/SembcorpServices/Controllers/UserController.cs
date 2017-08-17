@@ -33,7 +33,7 @@ namespace SembcorpServices.Controllers
             if (result)
             {
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, user);
-                response.Headers.Location = new Uri(Request.RequestUri, string.Format("AdminAlert/{0}", user.Email));
+                response.Headers.Location = new Uri(Request.RequestUri, string.Format("user/{0}", user.Email));
                 return response;
             }
             else
