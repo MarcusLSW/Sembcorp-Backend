@@ -49,7 +49,7 @@ namespace SembcorpServices.Controllers
             try
             {
                 SosUpdate sosUpdate = JsonConvert.DeserializeObject<SosUpdate>(value);
-                bool result = new SosMessageDAO().UpdateSosMessage(Guid.Parse(id), sosUpdate.Lat, sosUpdate.Longi, sosUpdate.LastUpdate, sosUpdate.Message);
+                bool result = new SosMessageDAO().UpdateSosMessage(Guid.Parse(id), sosUpdate);
 
                 if (result)
                 {

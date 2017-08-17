@@ -13,6 +13,7 @@ namespace SembcorpServices.Models
         private static string GET_USERS_BY_EMAIL = "select * from user where email = @email";
         private static string ADD_USER = "INSERT INTO user (email, name, is_admin, is_male) values(@email, @name, @is_admin, @is_male)";
         private static string UPDATE_USER = "UPDATE USER SET email = @email, name = @name, contact_num = @contact_num, region_code = @region_code, is_admin = @is_admin, is_male = @is_male, lat = @lat, longi = @longi";
+        private static string DELETE_USER = "DELETE FROM USER WHERE email = @email";
         public List<User> GetAllUsers()
         {
             MySqlConnection conn = null;
@@ -168,6 +169,37 @@ namespace SembcorpServices.Models
                 }
             }
 
+            return false;
+        }
+
+        public bool DeleteUser (string id)
+        {
+            MySqlConnection conn = null;
+            try
+            {
+                conn = ConnectionManager.GetConnection();
+
+                MySqlCommand cmd = new MySqlCommand(DELETE_USER, conn);
+
+                cmd.Parameters.AddWithValue("@email", id);
+
+                int count = cmd.ExecuteNonQuery();
+
+                if (count == 1) return true;
+
+
+            }
+            catch (MySqlException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace.ToString());
+            }
+            finally
+            {
+                if (conn != null && conn.State != System.Data.ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
             return false;
         }
     }

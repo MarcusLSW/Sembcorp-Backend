@@ -27,13 +27,14 @@ namespace SembcorpServices.Controllers
         // POST: api/User
         public HttpResponseMessage Post([FromBody]string value)
         {
+            System.Diagnostics.Debug.WriteLine(value);
             User user = JsonConvert.DeserializeObject<User>(value);
             bool result = new UserDAO().AddUser(user);
 
             if (result)
             {
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, user);
-                response.Headers.Location = new Uri(Request.RequestUri, string.Format("user/{0}", user.Email));
+                response.Headers.Location = new Uri(Request.RequestUri, string.Format("user/{0}/", user.Email));
                 return response;
             }
             else
@@ -44,14 +45,40 @@ namespace SembcorpServices.Controllers
         }
 
         // PUT: api/User/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put([FromBody]string value)
         {
+            User user = JsonConvert.DeserializeObject<User>(value);
+            bool result = new UserDAO().AddUser(user);
 
+            if (result)
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, user);
+                response.Headers.Location = new Uri(Request.RequestUri, string.Format("user/{0}/", user.Email));
+                return response;
+            }
+            else
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Conflict, user);
+                return response;
+            }
         }
 
         // DELETE: api/User/5
-        public void Delete(int id)
+        public bool Delete(string id)
         {
+            bool result = new UserDAO().DeleteUser(id);
+
+            if (result)
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, id);
+                return true;
+            }
+            else
+            {
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Conflict, id);
+                return false;
+            }
+
         }
     }
 }
