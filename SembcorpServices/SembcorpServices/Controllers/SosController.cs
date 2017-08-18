@@ -5,22 +5,39 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net;
 using System;
+using System.Web.Mvc;
 
 namespace SembcorpServices.Controllers
 {
     public class SosController : ApiController
     {
         // GET: api/Sos
-        public List<SosMessage> Get()
+        public ActionResult Get()
         {
+
             List<SosMessage> sosMessages = new SosMessageDAO().GetAllSosMessage();
-            return sosMessages;
+
+            if (sosMessages == null) return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+            JsonResult result = new JsonResult()
+            {
+                Data = sosMessages
+            };
+            return result;
         }
 
         // GET: api/Sos/5
-        public string Get(int id)
+        public ActionResult Get(Guid id)
         {
-            return "value";
+
+            SosMessage sosMessage = new SosMessageDAO().GetbyGuid(id);
+
+            if (sosMessage == null) return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+
+            JsonResult result = new JsonResult()
+            {
+                Data = sosMessage
+            };
+            return result;
         }
 
         // POST: api/Sos
