@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.5.1
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2017 at 02:27 PM
--- Server version: 5.7.11
--- PHP Version: 5.6.19
+-- Generation Time: Aug 18, 2017 at 05:41 AM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `test`
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin_alert`
 --
 
-CREATE TABLE `admin_alert` (
+CREATE TABLE IF NOT EXISTS `admin_alert` (
   `id` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `creation_date` datetime NOT NULL,
@@ -34,7 +34,8 @@ CREATE TABLE `admin_alert` (
   `longi` double NOT NULL,
   `alert` text NOT NULL,
   `parent_id` varchar(100) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
-  `child_id` varchar(100) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+  `child_id` varchar(100) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -53,13 +54,14 @@ INSERT INTO `admin_alert` (`id`, `email`, `creation_date`, `lat`, `longi`, `aler
 -- Table structure for table `emergency_contact`
 --
 
-CREATE TABLE `emergency_contact` (
+CREATE TABLE IF NOT EXISTS `emergency_contact` (
   `location_name` varchar(100) NOT NULL,
   `region_code` int(3) NOT NULL,
   `contact_number` int(15) NOT NULL,
   `lat` double NOT NULL,
   `longi` double NOT NULL,
-  `desc` text NOT NULL
+  `desc` text NOT NULL,
+  PRIMARY KEY (`region_code`,`contact_number`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -77,11 +79,12 @@ INSERT INTO `emergency_contact` (`location_name`, `region_code`, `contact_number
 -- Table structure for table `isos_alert_response`
 --
 
-CREATE TABLE `isos_alert_response` (
+CREATE TABLE IF NOT EXISTS `isos_alert_response` (
   `modified` varchar(100) NOT NULL,
   `globals` varchar(100) NOT NULL,
   `regions` varchar(100) NOT NULL,
-  `countires` varchar(100) NOT NULL
+  `countires` varchar(100) NOT NULL,
+  PRIMARY KEY (`modified`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -90,9 +93,10 @@ CREATE TABLE `isos_alert_response` (
 -- Table structure for table `isos_category`
 --
 
-CREATE TABLE `isos_category` (
+CREATE TABLE IF NOT EXISTS `isos_category` (
   `id` int(255) NOT NULL,
-  `desc` varchar(100) NOT NULL
+  `desc` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -101,12 +105,13 @@ CREATE TABLE `isos_category` (
 -- Table structure for table `isos_country_alert`
 --
 
-CREATE TABLE `isos_country_alert` (
+CREATE TABLE IF NOT EXISTS `isos_country_alert` (
   `modified` varchar(100) NOT NULL,
   `country` varchar(100) NOT NULL,
   `lang` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `update` int(100) NOT NULL
+  `update` int(100) NOT NULL,
+  PRIMARY KEY (`modified`,`country`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -115,10 +120,11 @@ CREATE TABLE `isos_country_alert` (
 -- Table structure for table `isos_global_alert`
 --
 
-CREATE TABLE `isos_global_alert` (
+CREATE TABLE IF NOT EXISTS `isos_global_alert` (
   `modified` varchar(100) NOT NULL,
   `lang` varchar(50) NOT NULL,
-  `update` int(100) NOT NULL
+  `update` int(100) NOT NULL,
+  PRIMARY KEY (`modified`,`lang`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -127,12 +133,13 @@ CREATE TABLE `isos_global_alert` (
 -- Table structure for table `isos_region_alert`
 --
 
-CREATE TABLE `isos_region_alert` (
+CREATE TABLE IF NOT EXISTS `isos_region_alert` (
   `modified` varchar(100) NOT NULL,
   `id` int(100) NOT NULL,
   `lang` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `update` int(100) NOT NULL
+  `update` int(100) NOT NULL,
+  PRIMARY KEY (`modified`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -141,7 +148,7 @@ CREATE TABLE `isos_region_alert` (
 -- Table structure for table `isos_update`
 --
 
-CREATE TABLE `isos_update` (
+CREATE TABLE IF NOT EXISTS `isos_update` (
   `herf` varchar(100) NOT NULL,
   `title` varchar(100) NOT NULL,
   `summary` text NOT NULL,
@@ -152,7 +159,8 @@ CREATE TABLE `isos_update` (
   `id` int(50) NOT NULL,
   `version` int(11) NOT NULL,
   `special_advisory` tinyint(1) NOT NULL,
-  `body` text NOT NULL
+  `body` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -161,9 +169,11 @@ CREATE TABLE `isos_update` (
 -- Table structure for table `isos_update_cat`
 --
 
-CREATE TABLE `isos_update_cat` (
+CREATE TABLE IF NOT EXISTS `isos_update_cat` (
   `id` int(50) NOT NULL,
-  `cat` int(255) NOT NULL
+  `cat` int(255) NOT NULL,
+  PRIMARY KEY (`id`,`cat`),
+  KEY `cat` (`cat`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -172,15 +182,16 @@ CREATE TABLE `isos_update_cat` (
 -- Table structure for table `sos_message`
 --
 
-CREATE TABLE `sos_message` (
+CREATE TABLE IF NOT EXISTS `sos_message` (
   `uuid` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `lat` double NOT NULL,
   `long` double NOT NULL,
   `initialisationDate` datetime NOT NULL,
-  `message` text NOT NULL,
-  `is_resloved` tinyint(1) NOT NULL,
-  `last_update` datetime NOT NULL
+  `message` text,
+  `is_resloved` tinyint(1) NOT NULL DEFAULT '0',
+  `last_update` datetime NOT NULL,
+  PRIMARY KEY (`uuid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -196,7 +207,7 @@ INSERT INTO `sos_message` (`uuid`, `email`, `lat`, `long`, `initialisationDate`,
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `contact_num` int(15) DEFAULT NULL,
@@ -204,7 +215,8 @@ CREATE TABLE `user` (
   `is_admin` tinyint(1) NOT NULL,
   `is_male` tinyint(1) NOT NULL,
   `lat` double DEFAULT NULL,
-  `longi` double DEFAULT NULL
+  `longi` double DEFAULT NULL,
+  PRIMARY KEY (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -221,87 +233,11 @@ INSERT INTO `user` (`email`, `name`, `contact_num`, `region_code`, `is_admin`, `
 -- Table structure for table `user_reg`
 --
 
-CREATE TABLE `user_reg` (
+CREATE TABLE IF NOT EXISTS `user_reg` (
   `email` varchar(100) NOT NULL,
-  `reg_id` varchar(100) NOT NULL
+  `reg_id` varchar(100) NOT NULL,
+  PRIMARY KEY (`email`,`reg_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `admin_alert`
---
-ALTER TABLE `admin_alert`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `emergency_contact`
---
-ALTER TABLE `emergency_contact`
-  ADD PRIMARY KEY (`region_code`,`contact_number`);
-
---
--- Indexes for table `isos_alert_response`
---
-ALTER TABLE `isos_alert_response`
-  ADD PRIMARY KEY (`modified`);
-
---
--- Indexes for table `isos_category`
---
-ALTER TABLE `isos_category`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `isos_country_alert`
---
-ALTER TABLE `isos_country_alert`
-  ADD PRIMARY KEY (`modified`,`country`);
-
---
--- Indexes for table `isos_global_alert`
---
-ALTER TABLE `isos_global_alert`
-  ADD PRIMARY KEY (`modified`,`lang`);
-
---
--- Indexes for table `isos_region_alert`
---
-ALTER TABLE `isos_region_alert`
-  ADD PRIMARY KEY (`modified`,`id`);
-
---
--- Indexes for table `isos_update`
---
-ALTER TABLE `isos_update`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `isos_update_cat`
---
-ALTER TABLE `isos_update_cat`
-  ADD PRIMARY KEY (`id`,`cat`),
-  ADD KEY `cat` (`cat`);
-
---
--- Indexes for table `sos_message`
---
-ALTER TABLE `sos_message`
-  ADD PRIMARY KEY (`uuid`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`email`);
-
---
--- Indexes for table `user_reg`
---
-ALTER TABLE `user_reg`
-  ADD PRIMARY KEY (`email`,`reg_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
